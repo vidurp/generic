@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import zipfile
 
 def TFPlotLossCurves( TrainingHistory, Epochs ):
     """
@@ -47,3 +48,20 @@ def TFPlotLossCurves( TrainingHistory, Epochs ):
         plt.axis( False )
         plt.legend( )
         plt.show( )
+
+
+def UnZipFiles( ZipFilePath, OutputPath = '.' ):
+    """
+    Unzip a file to target directory
+    
+    Args:
+        ZipFilePath: ZIP File to decompress
+        
+        OutputPath: target directory, default to cwd
+        
+    Returns:
+        none
+    """
+    with zipfile.ZipFile(ZipFilePath,'r') as File:
+        File.extractall( OutputPath )
+    
