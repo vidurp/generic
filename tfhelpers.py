@@ -2,20 +2,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import zipfile
 
-def TFPlotLossCurves( TrainingHistory, Epochs ):
+def TFPlotLossCurves( TrainingHistory, Epochs, FigSize=(8,4) ):
     """
     Plots Training Curves returned from Tensorflow Fit() function
     
     Args:
         TrainingHistory: Training History Object returned from fit()
-        
+
         Epochs: Training Epochs
+
+        FigSize: figure size , default (8,4)
         
     Returns:
         none
     """
-
-    epochs = np.linspace( 1, Epochs, 1 )
+    plt.figure(figsize=FigSize)
+    epochs = np.linspace( 1, Epochs, Epochs )
     if 'val_loss' in TrainingHistory.history:
         ValDataPresent = True
     else:
@@ -26,28 +28,23 @@ def TFPlotLossCurves( TrainingHistory, Epochs ):
 
         plt.plot( epochs, TrainingHistory.history['loss'], label = 'loss', color = 'red' )
         plt.plot( epochs, TrainingHistory.history['val_loss'], label = 'val_loss', color = 'blue' )
-        plt.axis( False )
-        plt.legend( )
-        plt.show( )
     else:
         plt.plot( epochs, TrainingHistory.history['loss'], label = 'loss', color = 'red' )
-        plt.axis( False )
-        plt.legend( )
-        plt.show( )
+    plt.title('Loss')
+    plt.xlabel('epochs')
+    plt.legend()
 
     plt.subplot(1,2,2)
     if ValDataPresent:
 
         plt.plot( epochs, TrainingHistory.history['accuracy'], label = 'accuracy', color = 'red' )
         plt.plot( epochs, TrainingHistory.history['val_accuracy'], label = 'val_accuracy', color = 'blue' )
-        plt.axis( False )
-        plt.legend( )
-        plt.show( )
     else:
         plt.plot( epochs, TrainingHistory.history['accuracy'], label = 'accuracy', color = 'red' )
-        plt.axis( False )
-        plt.legend( )
-        plt.show( )
+    plt.title('Accuracy')
+    plt.xlabel('epochs')
+    plt.legend( )
+    plt.show()
 
 
 def UnZipFiles( ZipFilePath, OutputPath = '.' ):
