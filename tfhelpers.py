@@ -2,26 +2,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 import zipfile
 
-def TFPlotLossCurves( TrainingHistory, Epochs, FigSize=(8,4) ):
+def TFPlotLossCurves( TrainingHistory, Epochs = 0, FigSize=(8,4) ):
     """
     Plots Training Curves returned from Tensorflow Fit() function
     
     Args:
         TrainingHistory: Training History Object returned from fit()
 
-        Epochs: Training Epochs
+        Epochs: Training Epochs ( if zero, uses epoch list from TrainingHistory )
 
         FigSize: figure size , default (8,4)
         
     Returns:
         none
     """
+      
     plt.figure(figsize=FigSize)
-    epochs = np.linspace( 1, Epochs, Epochs )
     if 'val_loss' in TrainingHistory.history:
         ValDataPresent = True
     else:
         ValDataPresent = False
+    
+    if Epochs == 0:
+        epochs = np.array(TrainingHistory.epoch)
+    else:
+        epochs = np.linspace(1,Epochs,Epochs)
     
     plt.subplot(1,2,1)
     if ValDataPresent:
