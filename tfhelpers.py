@@ -7,7 +7,7 @@ tfhelpers.py - AI/ML utility functions, especially to be used with
 Author:
     https://github.com/vidurp/generic/blob/main/tfhelpers.py
 
-Date:
+
 """
 
 
