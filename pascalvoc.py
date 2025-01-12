@@ -111,7 +111,7 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
        void
     """
     # Write the data to a JSON file
-    JsonData = { 'Files' : [],
+    JsonData = { 'files' : [],
                  'labels' : [] 
     }
 
