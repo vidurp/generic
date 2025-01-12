@@ -85,6 +85,7 @@ def ParsePascalString( str ):
            
     return ( Dict )
   
+  
 def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
     """
     Creates a JSON File from a Tree Structure of PASCAL VOC image data
@@ -105,29 +106,37 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
     Args:
       RootFilePath - Dataset Root directory
       JSONFileName - JSON File to save
-      
+
     Returns:
        void
     """
     # Write the data to a JSON file
-    JsonData = { 'Files' : [] }
+    JsonData = { 'Files' : [],
+                 'labels' : [] 
+    }
+
     Idx = 0
     with open(JSONFileName, "w") as outfile:
-        for Root, Dirs, Files in os.walk( RootFilePath ):
+        for Root, Dirs, Files in os.walk( RootFilePath + '/Annotations' ):
             for File in Files:
                 with open(Root + '/' + File, 'r') as TextFile:
                     Text = TextFile.read()
                     TextFile.close()
                     tokens = ParsePascalString( Text )
-                    JsonData[ 'Files' ].append( tokens )
+                    JsonData[ 'Files' ].append(tokens)
                     Idx = Idx + 1
-        
-        # Add attribute number of images in set
+
+        # Write num images to dict
         JsonData['NumImages'] = Idx
-        
+
+        # Write class lables to dict
+        labels = os.listdir( RootFilePath + '/Annotations' )
+        for Idx in range(len(labels)):
+            JsonData['labels'].append({'label' : labels[Idx]})
+
+
         # convert dict to json
         json_string = json.dumps(JsonData)
         # write json  to disc
         outfile.write(json_string)
         outfile.close()
-
