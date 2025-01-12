@@ -123,7 +123,7 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
                     Text = TextFile.read()
                     TextFile.close()
                     tokens = ParsePascalString( Text )
-                    JsonData[ 'Files' ].append(tokens)
+                    JsonData[ 'files' ].append(tokens)
                     Idx = Idx + 1
 
         # Write num images to dict
