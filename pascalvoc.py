@@ -127,7 +127,7 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
                     Idx = Idx + 1
 
         # Write num images to dict
-        JsonData['NumImages'] = Idx
+        JsonData['numimages'] = Idx
 
         # Write class lables to dict
         labels = os.listdir( RootFilePath + '/Annotations' )
