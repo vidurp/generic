@@ -116,6 +116,7 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
     }
 
     Idx = 0
+    LabelClasses = []
     with open(JSONFileName, "w") as outfile:
         for Root, Dirs, Files in os.walk( RootFilePath + '/Annotations' ):
             for File in Files:
@@ -125,14 +126,19 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
                     tokens = ParsePascalString( Text )
                     JsonData[ 'files' ].append(tokens)
                     Idx = Idx + 1
+                    
+                    # Extract Class Names from all detections in this image
+                    for j in range(int(tokens['numobjects'])):
+                        objclassname = tokens['object'][j]['label']
+                        if objclassname not in LabelClasses :
+                            LabelClasses.append(objclassname)
 
         # Write num images to dict
         JsonData['numimages'] = Idx
 
         # Write class lables to dict
-        labels = os.listdir( RootFilePath + '/Annotations' )
-        for Idx in range(len(labels)):
-            JsonData['labels'].append({'label' : labels[Idx]})
+        for ClassLabel in LabelClasses:
+            JsonData['labels'].append({'label' : ClassLabel})
 
 
         # convert dict to json
