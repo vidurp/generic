@@ -136,7 +136,7 @@ def CreateJSONFromPascalDataSet( RootFilePath, JSONFileName ):
 
 
         # convert dict to json
-        json_string = json.dumps(JsonData)
+        json_string = json.dumps(JsonData, indent = 4)
         # write json  to disc
         outfile.write(json_string)
         outfile.close()
