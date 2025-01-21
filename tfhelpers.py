@@ -82,9 +82,10 @@ def UnZipFiles( ZipFilePath, OutputPath = '.' ):
     Returns:
         none
     """
-    if os.splitext(ZipFilePath)[1]=='.tgz' :
+    root,extension = os.path.splitext(ZipFilePath)
+    if extension in ['.gz','.tgz']:
         # TAR file extractall
-        with tarfile.open(ZipFilePath, 'r:gz') as File:
+        with tarfile.open(ZipFilePath, 'r') as File:
             File.extractall( path=OutputPath )
     else:
         #ZIP File Extract
