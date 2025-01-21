@@ -14,6 +14,7 @@ Author:
 import matplotlib.pyplot as plt
 import numpy as np
 import zipfile
+import tarfile
 import itertools
 from sklearn.metrics import confusion_matrix
 
@@ -73,15 +74,21 @@ def UnZipFiles( ZipFilePath, OutputPath = '.' ):
     Unzip a file to target directory
     
     Args:
-        ZipFilePath: ZIP File to decompress
+        ZipFilePath: ZIP/TGZ File to decompress
         
         OutputPath: target directory, default to cwd
         
     Returns:
         none
     """
-    with zipfile.ZipFile(ZipFilePath,'r') as File:
-        File.extractall( OutputPath )
+    if os.splitext(ZipFilePath)[1]=='.tgz' :
+        # TAR file extractall
+        with tarfile.open(ZipFilePath, 'r:gz') as File:
+            File.extractall( path=OutputPath )
+    else:
+        #ZIP File Extract
+        with zipfile.ZipFile(ZipFilePath,'r') as File:
+            File.extractall( OutputPath )
     
     
 # Note: The following confusion matrix code is a remix of Scikit-Learn's 
