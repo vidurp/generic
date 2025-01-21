@@ -16,6 +16,7 @@ import numpy as np
 import zipfile
 import tarfile
 import itertools
+import os
 from sklearn.metrics import confusion_matrix
 
 
