@@ -60,7 +60,7 @@ def ParsePascalString( str ):
             NumObjects = re.findall(r'\d+', line[1])
 
     Dict = {
-        'FilePath' : FileName[0],
+        'filepath' : FileName[0],
         'numobjects' : NumObjects[0],
         'imagesize' : {
             'width': ImageSize[0],
