@@ -1,0 +1,61 @@
+#
+#  Launch Python w/ Tensorflow+GPU 
+#  Docker file for Nvidia 5xxx Blackwell Series GPUs
+#  
+#  This builds on top of NVIDIA's own docker image 
+#  supplied for Blackwell GPUs. 
+#
+#
+#  STEP 1:
+#  To install the default NVIDIA Tensorflow image
+#  $ docker pull nvcr.io/nvidia/tensorflow:25.02-tf2-py3
+#
+#
+#  Rest of this file
+#  1. installs python virtual environment
+#  2. required python packages using a requirements.txt
+#
+#
+#  STEP 2:
+#  To compile the docker image
+#  
+#  $  docker build -t vidur5070container .
+#
+#  STEP 3:
+#  To run the docker container
+# 
+#  $ docker run --gpus all -it --rm vidur5070container
+
+
+
+# Start with your existing prebuilt image
+FROM nvcr.io/nvidia/tensorflow:25.02-tf2-py3
+
+# set current working directory
+WORKDIR /usr/src/app
+
+# Add new instructions to customize the image
+# For example, install a new package
+# RUN apt-get update && apt-get install -y new-package
+
+
+# Copy new files into the image
+# COPY ./my_new_app /usr/src/app
+
+#virtual environment setup
+ENV VIRTUAL_ENV=/opt/nvidia5070env
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN apt-get update && apt-get install -y python3-venv && apt-get install -y pip
+
+RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
+
+# install your favorite python packages from a requirements.txt file
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+RUN pip install keras-hub --no-deps
+# Change the default command if needed
+CMD ["python3"]
+
+
+
